@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'application'
+    id "com.diffplug.spotless" version "6.25.0"
+}
+
+group = 'de.catcafe'
+version = '1.0-SNAPSHOT'
+
+application {
+    // Falls deine Main woanders liegt, passen wir das gleich an
+    mainClass = 'catcafe.Main'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JUnit 6 Setup
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.0.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+spotless {
+    java {
+        target 'src/*/java/**/*.java'
+
+        // Diese Befehle brauchen KEINE externe Datei und KEINE Sonderrechte
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        indentWithSpaces(4) // Erfüllt die Forderung nach 4 Leerzeichen
+        endWithNewline()
+
+        // Formatiert nach dem Standard-Java-Style (sehr nah an Google)
+        eclipse()
+    }
+}
+
